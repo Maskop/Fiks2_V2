@@ -32,11 +32,14 @@ namespace Fiks2 {
 
 
             // Initialize the astronouts
-            foreach (var (line, i) in lines[(index * 3) + 2].Split(' ').Select(long.Parse).ToArray().WithIndex()) {
-                astronauts[i] = new Astronaut((ushort)i, (ulong)line);
+            foreach (var (competence, i) in lines[(index * 3) + 2].Split(' ').Select(long.Parse).ToArray().Select((c,i) => (c,i))) {
+                astronauts[i] = new Astronaut((ulong)competence);
             }
-            foreach (var line in lines[(index * 3) + 3].Split(' ').Select(long.Parse).ToArray()) {
-                
+            foreach (var (supervisorIndex, i) in lines[(index * 3) + 3].Split(' ').Select(long.Parse).ToArray().Select((s,i) => (s,i))) {
+                if (supervisorIndex != -1) {
+                    astronauts[i].SetSupervisor(astronauts[supervisorIndex - 1]);
+                    astronauts[supervisorIndex - 1].AddSubordinate(astronauts[i]);
+                }
             }
 
             // Return the astronouts
