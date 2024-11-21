@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Fiks2_V2 {
     internal class Astronaut {
-        private ushort index { get; set; }
-        private ulong points { get; set; }
-        private Astronaut supervisor { get; set; }
-        private List<Astronaut> subordinates { get; set; }
+        private ushort index;
+        private ulong points;
+        private Astronaut supervisor;
+        private List<Astronaut> subordinates;
 
         public Astronaut(ushort index, ulong points, Astronaut supervisor) {
             this.index = index;
@@ -21,7 +21,5 @@ namespace Fiks2_V2 {
         public void AddSubordinate(Astronaut astronaut) {
             subordinates.Add(astronaut);
         }
-
-
     }
 }
