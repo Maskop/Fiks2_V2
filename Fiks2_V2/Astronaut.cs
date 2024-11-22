@@ -24,7 +24,7 @@ namespace Fiks2_V2 {
         }
 
         public bool IsMaster() {
-            return supervisor != null;
+            return supervisor is null;
         }
 
         public bool HasSubordinates() {
