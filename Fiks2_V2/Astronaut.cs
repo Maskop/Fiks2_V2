@@ -31,12 +31,28 @@ namespace Fiks2_V2 {
             return subordinates.Count > 0;
         }
 
+        public bool HasSupervisor() {
+            return supervisor is not null;
+        }
+
         public List<Astronaut> GetSubordinates() {
             return subordinates;
         }
 
         public Astronaut GetSupervisor() {
             return supervisor;
+        }
+
+        public ulong GetPoints() {
+            return points;
+        }
+        
+        public void AddPoints(ulong points) {
+            this.points += points;
+        }
+
+        public void SetPoints(ulong points) {
+            this.points = points;
         }
 
         public string ToString() {
