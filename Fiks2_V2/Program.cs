@@ -5,8 +5,9 @@ namespace Fiks2_V2 {
     internal class Program {
         static void Main(string[] args) {
             InputHandle input = new InputHandle("sample.in");
-            List<ushort> trashIndices = new List<ushort>();
+            List<ushort> trashIndices;
             for (ushort i = 0; i < input.GetNumberOfCrews(); i++) {
+                trashIndices = new List<ushort>();
                 Astronaut[] astronauts = input.GetAstronouts(i);
                 ushort masterIndex = Algorithm.AlgorithmPart1(astronauts, trashIndices);
                 Console.WriteLine(masterIndex + 1);
