@@ -23,6 +23,17 @@ namespace Fiks2_V2 {
             this.supervisor = astronaut;
         }
 
+        public void SetMax() {
+            if (subordinates.Count == 0) {
+                supervisor.SetPoints(points + 1);
+                return;
+            } else {
+                foreach (var item in subordinates) {
+                    item.SetMax();
+                }
+            }
+        }
+
         public bool IsMaster() {
             return supervisor is null;
         }
