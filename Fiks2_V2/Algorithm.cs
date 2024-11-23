@@ -23,14 +23,27 @@ namespace Fiks2_V2 {
             foreach (var trashIndex in trashIndices) {
                 Astronaut currentAstronaut = astronauts[trashIndex];
                 Astronaut supervisor = astronauts[trashIndex].GetSupervisor();
-                while (currentAstronaut.HasSupervisor()) {
-                    supervisor = supervisor.GetSupervisor();
-                    if (supervisor.GetPoints() < currentAstronaut.GetPoints()) {
-                        supervisor.SetPoints(currentAstronaut.GetPoints() + 1);
-                    }
-                    currentAstronaut = supervisor;
+                if (supervisor.GetPoints() < currentAstronaut.GetPoints()) {
+                    supervisor.SetPoints(currentAstronaut.GetPoints() + 1);
                 }
             }
+
+                /*
+                foreach (var trashIndex in trashIndices) {
+                    Astronaut currentAstronaut = astronauts[trashIndex];
+                    Astronaut supervisor = astronauts[trashIndex].GetSupervisor();
+                    while (currentAstronaut.HasSupervisor()) {
+                        supervisor = supervisor.GetSupervisor();
+                        if (supervisor.GetPoints() < currentAstronaut.GetPoints()) {
+                            supervisor.SetPoints(currentAstronaut.GetPoints() + 1);
+                        }
+                        currentAstronaut = supervisor;
+                    }
+                }
+                */
+        }
+        public static void AlgorithmPart2V2(Astronaut[] astronauts, ushort masterIndex) {
+            astronauts[masterIndex].SetMax();
         }
     }
 }
