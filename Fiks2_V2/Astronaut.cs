@@ -24,13 +24,25 @@ namespace Fiks2_V2 {
         }
 
         public void SetMax() {
-            if (subordinates.Count == 0) {
-                supervisor.SetPoints(points + 1);
+            if (subordinates.Count == 0 && supervisor is not null) {
+                if (supervisor.GetPoints() <= this.points)
+                    supervisor.SetPoints(this.points + 1);
+                this.SetMax(this.GetSupervisor());
                 return;
             } else {
                 foreach (var item in subordinates) {
                     item.SetMax();
                 }
+            }
+        }
+
+        public void SetMax(Astronaut currentAstronaut) {
+            if (currentAstronaut is null || !currentAstronaut.HasSupervisor())
+                return;            
+            if (currentAstronaut.GetPoints() >= currentAstronaut.GetSupervisor().GetPoints())
+                currentAstronaut.GetSupervisor().SetPoints(currentAstronaut.GetPoints() + 1);
+            if (currentAstronaut.HasSupervisor()) {
+                SetMax(currentAstronaut.GetSupervisor());
             }
         }
 
@@ -66,8 +78,16 @@ namespace Fiks2_V2 {
             this.points = points;
         }
 
+        public void WriteOutWholeTree() {
+            Console.WriteLine(this.ToString());
+            foreach (var item in subordinates) {
+                Console.Write("-");
+                item.WriteOutWholeTree();
+            }
+        }
+
         public string ToString() {
-            return $"Points: {points}, Supervisor: {supervisor}, Subordinates: {subordinates.Count}";
+            return $"Points: {points}, Has Supervisor: {this.HasSupervisor()}, Subordinates: {subordinates.Count}";
         }
     }
 }
