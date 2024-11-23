@@ -23,27 +23,54 @@ namespace Fiks2_V2 {
             this.supervisor = astronaut;
         }
 
-        public void SetMax() {
-            if (subordinates.Count == 0 && supervisor is not null) {
-                if (supervisor.GetPoints() <= this.points)
-                    supervisor.SetPoints(this.points + 1);
-                this.SetMax(this.GetSupervisor());
-                return;
+        public bool SetMax(ref ulong pointsToDistribute) {
+            if (this.subordinates.Count == 0 && this.supervisor is not null) {
+                if (this.supervisor.GetPoints() <= this.points) {
+                    ulong pointsToChange = this.points - this.supervisor.GetPoints() + 1;
+                    if (pointsToChange > pointsToDistribute) {
+                        pointsToDistribute = 0;
+                        return false;
+                    }
+                    this.supervisor.AddPoints(pointsToChange);
+                    pointsToDistribute -= pointsToChange;
+                }
+                bool result = this.SetMax(this.GetSupervisor(), ref pointsToDistribute);
+                if (result)
+                    return true;
+                else
+                    return false;
             } else {
-                foreach (var item in subordinates) {
-                    item.SetMax();
+                foreach (var item in this.subordinates) {
+                    bool result = item.SetMax(ref pointsToDistribute);;
+                    if (result)
+                        return true;
+                    else
+                        return false;
                 }
             }
+            return true;
         }
 
-        public void SetMax(Astronaut currentAstronaut) {
+        public bool SetMax(Astronaut currentAstronaut, ref ulong pointsToDistribute) {
             if (currentAstronaut is null || !currentAstronaut.HasSupervisor())
-                return;            
-            if (currentAstronaut.GetPoints() >= currentAstronaut.GetSupervisor().GetPoints())
-                currentAstronaut.GetSupervisor().SetPoints(currentAstronaut.GetPoints() + 1);
-            if (currentAstronaut.HasSupervisor()) {
-                SetMax(currentAstronaut.GetSupervisor());
+                return true;            
+            if (currentAstronaut.GetPoints() >= currentAstronaut.GetSupervisor().GetPoints()) {
+                ulong pointsToChange = currentAstronaut.GetPoints() - currentAstronaut.GetSupervisor().GetPoints() + 1;
+                if (pointsToChange > pointsToDistribute) {
+                    pointsToDistribute = 0;
+                    return false;
+                }
+                currentAstronaut.GetSupervisor().AddPoints(pointsToChange);
+                pointsToDistribute -= pointsToChange;
             }
+            if (currentAstronaut.HasSupervisor()) {
+                bool result = SetMax(currentAstronaut.GetSupervisor(), ref pointsToDistribute);
+                if (result)
+                    return true;
+                else 
+                    return false;
+            }
+            return true;
         }
 
         public bool IsMaster() {

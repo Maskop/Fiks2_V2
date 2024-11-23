@@ -42,8 +42,11 @@ namespace Fiks2_V2 {
                 }
                 */
         }
-        public static void AlgorithmPart2V2(Astronaut[] astronauts, ushort masterIndex) {
-            astronauts[masterIndex].SetMax();
+        public static bool AlgorithmPart2V2(Astronaut[] astronauts, ushort masterIndex, List<ushort> trashIndices, ref ulong pointsToDistribute) {
+            foreach (var trash in trashIndices) {
+                return astronauts[trash].SetMax(astronauts[trash],ref pointsToDistribute);
+            }
+            return false;
         }
     }
 }
